@@ -1,24 +1,18 @@
 import streamlit as st
 from styles import MAIN_STYLES, CUSTOM_BUTTON_STYLES, get_callout
 
-# Initialize session state for tutorial progress and completion
-if "tutorial_step" not in st.session_state:
-    st.session_state.tutorial_step = 1
-if "tutorial_complete" not in st.session_state:
-    st.session_state.tutorial_complete = False
-
 def show_ddm_tutorial():
     """Interactive DDM tutorial walkthrough"""
     st.markdown(MAIN_STYLES, unsafe_allow_html=True)
     st.markdown(CUSTOM_BUTTON_STYLES, unsafe_allow_html=True)
 
     # Only show the expander if tutorial isn't marked as complete
-    if not st.session_state.tutorial_complete:
+    if not st.session_state.get('tutorial_complete', False):
         with st.expander("🎓 Interactive Tutorial (Start Here)", expanded=True):
             st.markdown("## Dividend Discount Model Tutorial\nLearn how to value stocks using dividend discount models")
 
             # Step 1: DDM Basics
-            if st.session_state.tutorial_step == 1:
+            if st.session_state.get('tutorial_step', 1) == 1:
                 st.markdown("""
                 **Step 1/5: Understanding DDM Basics**
                 
@@ -42,7 +36,7 @@ def show_ddm_tutorial():
                     st.session_state.tutorial_step = 2
 
             # Step 2: Zero-Growth Model
-            elif st.session_state.tutorial_step == 2:
+            elif st.session_state.get('tutorial_step', 1) == 2:
                 st.markdown("**Zero-Growth Model: Step 2/5**")
                 st.latex(r"P = \frac{D}{r}")
 
@@ -61,7 +55,7 @@ def show_ddm_tutorial():
                     st.session_state.tutorial_step = 3
 
             # Step 3: Gordon Growth Model
-            elif st.session_state.tutorial_step == 3:
+            elif st.session_state.get('tutorial_step', 1) == 3:
                 st.markdown("**Gordon Growth Model: Step 3/5**")
                 st.latex(r"P = \frac{D_1}{r - g}")
 
@@ -86,7 +80,7 @@ def show_ddm_tutorial():
                     st.session_state.tutorial_step = 4
 
             # Step 4: Multi-Stage DDM
-            elif st.session_state.tutorial_step == 4:
+            elif st.session_state.get('tutorial_step', 1) == 4:
                 st.markdown("**Multi-Stage DDM: Step 4/5**")
                 st.latex(r"P = \sum_{t=1}^n \frac{D_0(1+g_i)^t}{(1+r)^t} + \frac{D_n(1+g_s)}{(r-g_s)(1+r)^n}")
 
@@ -96,7 +90,7 @@ def show_ddm_tutorial():
                     st.session_state.tutorial_step = 5
 
             # Step 5: Practical Application (Completion)
-            elif st.session_state.tutorial_step == 5:
+            elif st.session_state.get('tutorial_step', 1) == 5:
                 st.markdown(get_callout("Using the DDM App", """
                 <ol>
                     <li>Enter stock ticker for historical data</li>
@@ -122,7 +116,7 @@ def show_ddm_tutorial():
                     st.session_state.tutorial_complete = True
 
     # Step 5 callouts persist after tutorial collapse
-    if st.session_state.tutorial_complete:
+    if st.session_state.get('tutorial_complete', False):
         st.markdown(get_callout("Using the DDM App", """
         <ol>
             <li>Enter stock ticker for historical data</li>

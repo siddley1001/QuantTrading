@@ -41,6 +41,12 @@ def main():
         layout="wide"
     )
     
+    # Initialize tutorial state
+    if 'tutorial_complete' not in st.session_state:
+        st.session_state.tutorial_complete = False
+    if 'tutorial_step' not in st.session_state:
+        st.session_state.tutorial_step = 1
+    
     # Show interactive tutorial
     show_ddm_tutorial()
     
